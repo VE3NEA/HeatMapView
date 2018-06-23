@@ -1,0 +1,89 @@
+<html><body>
+
+<h1>Creating a blank plugin for SDR# in Visual Studio</h1>
+
+<ol>
+<li>Start Visual Studio 2017, select in the menu: File / New / Project. In the New Project dialog, click on Visual C# / Windows Desktop / Class Library. Enter parameters:
+<ul>
+  <li>Name: SDRSharp.BlankPlugin
+  <li>Location: C:\Projects\
+  <li>Solution: Create New Solution
+  <li>Solution name: SDRSharpPlugins
+  <li>Framework: .NET Framework 4.6
+</ul>
+Click on OK.
+
+
+<br><br><li>In the C:\Projects\SDRSharpPlugins folder, create a subfolder named Vendor.
+Copy these files from the SDR# installation folder to the Vendor folder:
+<ul>
+  <li>SDRSharp.Common.dll
+  <li>SDRSharp.PanView.dll
+  <li>SDRSharp.Radio.dll
+</ul>  
+
+<br><br><li>In the Solution Explorer panel, right-click on References, click on Add Reference. In the Reference Manager dialog, click on Browse, navigate to the C:\Projects\SDRSharpPlugins\Vendor folder, select all three dll's and click on Add. Click on OK.
+  
+  
+<br><br><li>In the Solution Explorer panel, right-click on Class1.cs, click on Rename, enter new name:  BlankPlugin. Click on the Yes button to rename the references.
+
+
+<br><br><li>Right-click on SDRSharp.BlankPlugin in the Solution Explorer panel, click on Add / New Item. In the Add New Item dialog, click on Visual C# Items / User Control. Enter parameter:
+  Name: BlankPluginPanel. Click on OK.
+  
+<br><br><li>Double-click on BlankPlugin.cs in the Solution Exlporer panel. Enter this code in the BlankPlugin.cs file:
+
+<pre>
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Forms;
+using SDRSharp.Common;
+
+namespace SDRSharp.BlankPlugin
+{
+    public class BlankPlugin : ISharpPlugin
+    {
+        private const string _displayName = "Blank Plugin";
+        private ISharpControl _control;
+        private BlankPluginPanel _guiControl;
+
+        public UserControl Gui
+        {
+            get { return _guiControl; }
+        }
+
+        public string DisplayName
+        {
+            get { return _displayName; }
+        }
+
+        public void Close()
+        {
+        }
+
+        public void Initialize(ISharpControl control)
+        {
+            _control = control;
+            _guiControl = new BlankPluginPanel();
+        }
+    }
+}
+</pre>
+
+
+
+<br><li>Click on Build / Rebuild Solution in the Visual Studio menu.
+
+
+<br><br><li>Copy C:\Projects\SDRSharpPlugins\SDRSharp.BlankPlugin\bin\Debug\SDRSharp.BlankPlugin.dll to the SDR# installation directory.
+
+
+<br><br><li>In the SDR# installation directory, add this line to the Plugins.xml file before &lt;/sharpPlugins&gt;:
+<pre>
+    &lt;add key="Blank Plugin" value="SDRSharp.BlankPlugin.BlankPlugin,SDRSharp.BlankPlugin" /&gt;
+</pre>
+	
+<li>Start SDR#, verify that the plugin appears in the sidebar.
+</body></html>
