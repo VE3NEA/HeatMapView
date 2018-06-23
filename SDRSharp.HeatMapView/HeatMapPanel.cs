@@ -197,12 +197,6 @@ namespace SDRSharp.HeatMapView
 
       if (label1.Visible) label1.Text = String.Format(" {0:f3} MHz  {1:s}", 
         DisplayFreq * 1e-6, DisplayTime).Replace("T", "  ");
-
-      //SizeF LabelSize = g.MeasureString(LabelText, Font);
-      //Point LabelPos = new Point(VisibleRectangle.Left + 3, Convert.ToInt32(VisibleRectangle.Bottom - LabelSize.Height - 2));
-      //Brush TrunsparentBrush = new SolidBrush(Color.FromArgb(90, Color.Black));
-     //// g.FillRectangle(Brushes.Navy, LabelPos.X, LabelPos.Y, LabelSize.Width, LabelSize.Height);
-      //g.DrawString(LabelText, Font, Brushes.White, LabelPos);
     }
 
     private void PropertyChangedEventHandler(object sender, PropertyChangedEventArgs e)
