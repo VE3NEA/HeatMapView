@@ -147,7 +147,7 @@ namespace SDRSharp.HeatMapView
 
     private void HelpButton_Click(object sender, EventArgs e)
     {
-      System.Diagnostics.Process.Start("http://dxatlas.com/HeatMapView/");
+      System.Diagnostics.Process.Start("https://github.com/VE3NEA/HeatMapView");
     }
   }
 }

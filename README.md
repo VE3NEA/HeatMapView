@@ -53,5 +53,6 @@ For those who are just starting with SDR# plugin development, I have included
 step by step [instructions](SDRPluginSteps.htm) 
 how to create a blank plugin project in Visual Studio.
 
-
+### Screenshot
+![Screenshot](Screenshot.png)
   
