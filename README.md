@@ -11,8 +11,8 @@ to the frequencies where interesting activity was recorded.
 
 ### Installation
 1. Place these two files in the folder where SDR# is installed:
-  * [HeatMapGenerator.dll](HeatMapGenerator.Delphi/HeatMapGenerator.dll)
-  * [SDRSharp.HeatMapView.dll](SDRSharp.HeatMapView/bin/Release/SDRSharp.HeatMapView.dll)
+  * [HeatMapGenerator.dll](HeatMapGenerator.Delphi/HeatMapGenerator.dll?raw=true)
+  * [SDRSharp.HeatMapView.dll](SDRSharp.HeatMapView/bin/Release/SDRSharp.HeatMapView.dll?raw=true)
   
 2. Open the *Plugins.xml* file in the SDR# folder using a text editor and
 add this line just before the `</sharpPlugins>` line:
