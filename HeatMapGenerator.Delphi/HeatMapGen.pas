@@ -127,6 +127,11 @@ begin
   Fs := TFileStream.Create(FInFileName, fmOpenRead or fmShareDenyNone);
   Rd := TStreamReader.Create(Fs);
   while not Rd.EndOfStream do ProcessLine(Rd.ReadLine);
+
+  //last line
+  SetLength(Data, Length(Data) + 1);
+  Data[High(Data)] := Spect;
+
   Rd.Free;
   Fs.Free;
 end;
@@ -189,6 +194,7 @@ var
   MaxV: Single;
   Noise: TSingleArray;
 begin
+  Integer(Noise) := 0;
   SetLength(Noise, BinCnt);
   MaxV := Data[0,0];
 
@@ -341,7 +347,9 @@ begin
 
   //string to delphi date
   DateB := StrToDateTime(TimeStart, TimeFmt);
-  DateE := StrToDateTime(TimeEnd, TimeFmt);
+  if TimeEnd = ''
+    then DateE := DateB + 1/86400
+    else DateE := StrToDateTime(TimeEnd, TimeFmt);
 
   //delphi date to .net date
   NetDateB := Round((DateB - EncodeDate(1970,1,1)) * 86400000);

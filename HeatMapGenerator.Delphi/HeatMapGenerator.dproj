@@ -20,7 +20,8 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
-			<DCC_DependencyCheckOutputName>HeatMapGenerator.dll</DCC_DependencyCheckOutputName>
+			<DCC_ExeOutput>C:\Ham\rtl-sdr\SDR#\</DCC_ExeOutput>
+			<DCC_DependencyCheckOutputName>C:\Ham\rtl-sdr\SDR#\HeatMapGenerator.dll</DCC_DependencyCheckOutputName>
 			<GenDll>true</GenDll>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_Optimize>false</DCC_Optimize>
@@ -55,9 +56,6 @@
 			</BuildConfiguration>
 		</ItemGroup>
 		<Import Project="$(BDS)\Bin\CodeGear.Delphi.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Delphi.Targets')"/>
-		<PropertyGroup>
-			<PostBuildEvent><![CDATA[copy /y $(OUTPUTPATH) "C:\Ham\rtl-sdr\SDR#\"]]></PostBuildEvent>
-		</PropertyGroup>
 		<ProjectExtensions>
 			<Borland.Personality>Delphi.Personality.12</Borland.Personality>
 			<Borland.ProjectType/>
@@ -70,6 +68,7 @@
 						<Parameters Name="UseLauncher">False</Parameters>
 						<Parameters Name="LoadAllSymbols">True</Parameters>
 						<Parameters Name="LoadUnspecifiedSymbols">False</Parameters>
+						<Parameters Name="HostApplication">C:\Ham\rtl-sdr\SDR#\SDRSharp.exe</Parameters>
 					</Parameters>
 					<VersionInfo>
 						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
