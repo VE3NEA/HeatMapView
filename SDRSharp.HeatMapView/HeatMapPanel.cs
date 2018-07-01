@@ -105,11 +105,12 @@ namespace SDRSharp.HeatMapView
     }
 
     private void DrawScale(Graphics g)
+
     {
       //scale bg
       Rectangle r = GetScaleRectangle();
       g.FillRectangle(Brushes.White, r);
-
+      if (HeatMap == null) return;
 
       //tick steps
       float TickStep = 200;
@@ -156,16 +157,15 @@ namespace SDRSharp.HeatMapView
       Rd.Location = new Point(Rd.Left, ScaleHeight);
       Rd.Height -= ScaleHeight;
       g.FillRectangle(Brushes.LightSlateGray, Rd);
+      if (HeatMap == null) return;
 
-      if (HeatMap != null)
-      {
-        Rectangle Rs = Rd;
-        Rs.Location = new Point(
-            Convert.ToInt32(CurrentPanFreq() / HeatMapHertzPerPixel),
-            Convert.ToInt32(CurrentPanTicks() / TimeTicksPerPixel));
-        Rs.Width = Convert.ToInt32(Rs.Width / Zoom);
-        g.DrawImage(HeatMap, Rd, Rs, GraphicsUnit.Pixel);
-      }
+      Rectangle Rs = Rd;
+      Rs.Location = new Point(
+          Convert.ToInt32(CurrentPanFreq() / HeatMapHertzPerPixel),
+          Convert.ToInt32(CurrentPanTicks() / TimeTicksPerPixel));
+      Rs.Width = Convert.ToInt32(Rs.Width / Zoom);
+      g.DrawImage(HeatMap, Rd, Rs, GraphicsUnit.Pixel);
+
     }
 
     private void DrawTriangle(Graphics g)

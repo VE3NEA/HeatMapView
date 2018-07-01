@@ -79,6 +79,8 @@ namespace SDRSharp.HeatMapView
         //delete from list
         Plugin.Settings.HeatMaps.RemoveAt(Idx);
         ListBox.SelectedIndex = Math.Min(ListBox.Items.Count - 1, ListBox.SelectedIndex);
+
+        if (ListBox.Items.Count == 0) EnabledCheckBox.Enabled = false;
       }
       catch (Exception ex)
       {
