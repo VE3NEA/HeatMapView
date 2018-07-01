@@ -11,6 +11,7 @@ namespace SDRSharp.HeatMapView
   class HeatMapGenerator
   {
     [DllImport("HeatMapGenerator.dll", CallingConvention = CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+    [return: MarshalAs(UnmanagedType.I1)]
     private static extern bool GenerateHeatMap(string InFileName, string OutFileName, int NoiseModel, StringBuilder Info, int InfoSize, bool PngFormat);
 
     public static HeatMapInfo Generate(string InputFileName)
