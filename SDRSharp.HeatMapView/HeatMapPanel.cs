@@ -98,20 +98,24 @@ namespace SDRSharp.HeatMapView
     private void HitMapViewFrontControl_Paint(object sender, PaintEventArgs e)
     {
       Graphics g = e.Graphics;
-      DrawScale(g);
-      DrawTriangle(g);
+      DrawBackground(g);
 
-      if (e.ClipRectangle.Bottom > GetScaleRectangle().Bottom) DrawHeatMap(g);
+      if (HeatMap != null)
+      {
+        DrawScale(g);
+        DrawTriangle(g);
+        if (e.ClipRectangle.Bottom > GetScaleRectangle().Bottom) DrawHeatMap(g);
+      }
+    }
+
+    private void DrawBackground(Graphics g)
+    {
+      g.FillRectangle(Brushes.LightSlateGray, GetVisibleRectangle());
+      g.FillRectangle(Brushes.White, GetScaleRectangle());
     }
 
     private void DrawScale(Graphics g)
-
     {
-      //scale bg
-      Rectangle r = GetScaleRectangle();
-      g.FillRectangle(Brushes.White, r);
-      if (HeatMap == null) return;
-
       //tick steps
       float TickStep = 200;
       float LabelStep = 1000;
@@ -157,13 +161,13 @@ namespace SDRSharp.HeatMapView
       Rd.Location = new Point(Rd.Left, ScaleHeight);
       Rd.Height -= ScaleHeight;
       g.FillRectangle(Brushes.LightSlateGray, Rd);
-      if (HeatMap == null) return;
 
       Rectangle Rs = Rd;
       Rs.Location = new Point(
           Convert.ToInt32(CurrentPanFreq() / HeatMapHertzPerPixel),
           Convert.ToInt32(CurrentPanTicks() / TimeTicksPerPixel));
       Rs.Width = Convert.ToInt32(Rs.Width / Zoom);
+
       g.DrawImage(HeatMap, Rd, Rs, GraphicsUnit.Pixel);
 
     }
