@@ -11,6 +11,7 @@ type
 
   THeatMapGenerator = class
   private
+    Fmt: TFormatSettings;
     FInFileName, FOutFileName: TFileName;
     Fields: TStringList;
 
@@ -52,6 +53,14 @@ function THeatMapGenerator.GenerateHeatMap(const InFileName,
   OutFileName: PChar; NoiseModel: integer; Info: PChar;
   InfoSize: integer; PngFormat: boolean): boolean;
 begin
+  //date and FP format in csv file
+  GetLocaleFormatSettings(GetThreadLocale, Fmt);
+  Fmt.DateSeparator := '-';
+  Fmt.ShortDateFormat := 'yyyy-mm-dd';
+  Fmt.TimeSeparator := ':';
+  Fmt.LongTimeFormat := 'hh:nn:ss';
+  Fmt.DecimalSeparator := '.';
+
   FInFileName := InFileName;
   FOutFileName := OutFileName;
 
@@ -102,7 +111,7 @@ begin
   Fields.CommaText := S;
   TimeStr := Fields[1];
   FreqStart := StrToInt(Fields[2]);
-  FreqStep := StrToFloat(Fields[4]);
+  FreqStep := StrToFloat(Fields[4], Fmt);
   TimeStart := Fields[0] + 'T' + Fields[1];
 
   repeat
@@ -156,7 +165,7 @@ begin
   Idx := Round((StrToInt(Fields[2]) - FreqStart) / FreqStep);
   for i:=6 to Fields.Count-1 do
     if ((Idx+i-6) >= 0) and ((Idx+i-6) < BinCnt) then
-      Spect[Idx+i-6] := StrToFloat(Fields[i]);
+      Spect[Idx+i-6] := StrToFloat(Fields[i], Fmt);
 end;
 
 
@@ -330,26 +339,18 @@ end;
 
 function THeatMapGenerator.InfoToJson: string;
 const
-  Fmt = '{"Name":"%s","StartFreq":%d,"EndFreq":%d,' +
+  FormatString = '{"Name":"%s","StartFreq":%d,"EndFreq":%d,' +
         '"StartTime":"\/Date(%d)\/","EndTime":"\/Date(%d)\/"}';
 var
-  TimeFmt: TFormatSettings;
   DateB, DateE: TDateTime;
   NetDateB, NetDateE: Int64;
   FileName: TFileName;
 begin
-  //date format in csv file
-  GetLocaleFormatSettings(GetThreadLocale, TimeFmt);
-  TimeFmt.DateSeparator := '-';
-  TimeFmt.ShortDateFormat := 'yyyy-mm-dd';
-  TimeFmt.TimeSeparator := ':';
-  TimeFmt.LongTimeFormat := 'hh:nn:ss';
-
   //string to delphi date
-  DateB := StrToDateTime(TimeStart, TimeFmt);
+  DateB := StrToDateTime(TimeStart, Fmt);
   if TimeEnd = ''
     then DateE := DateB + 1/86400
-    else DateE := StrToDateTime(TimeEnd, TimeFmt);
+    else DateE := StrToDateTime(TimeEnd, Fmt);
 
   //delphi date to .net date
   NetDateB := Round((DateB - EncodeDate(1970,1,1)) * 86400000);
@@ -357,7 +358,7 @@ begin
 
   FileName := ChangeFileExt(ExtractFileName(FOutFileName), '');
 
-  Result := Format(Fmt, [FileName, FreqStart, FreqEnd, NetDateB, NetDateE]);
+  Result := Format(FormatString, [FileName, FreqStart, FreqEnd, NetDateB, NetDateE]);
 end;
 
 initialization
